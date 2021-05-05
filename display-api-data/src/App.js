@@ -13,6 +13,7 @@ const App = () => {
   //States
   const [apiData, setApiData] = useState([]);
   const [chartData, setChartData] = useState({});
+  const [totalIssues, setTotalIssues] = useState(0);
   const [selectedValue, setSelectedValue] = useState("javascript");
   const [loading, setLoading] = useState(false);
   //API URL
@@ -29,6 +30,7 @@ const App = () => {
 
     axios.get(url)
     .then((res) => {
+      calcTotalIssues(res.data.items);
       toChartData(res.data.items);
       setApiData(res.data.items);
       setLoading(false);
@@ -57,6 +59,7 @@ const App = () => {
       chartData.labels.push(repo.name);
       //Set their open issues count as data
       chartData.datasets[0].data.push(repo.open_issues_count);
+      //Set graph colors
       chartData.datasets[0].backgroundColor.push("#333333");
       chartData.datasets[0].borderColor.push("#333333");
     })
@@ -65,13 +68,29 @@ const App = () => {
     setChartData(chartData);
   }
 
+  //Function to calculate total open issues for all repos
+  const calcTotalIssues = (data) => {
+    let total = 0;
+
+    data.map((repo) => {
+      total += repo.open_issues_count;
+    })
+
+    setTotalIssues(total);
+  }
+
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <Typography variant="h4" component="h1">Sysco Kodeoppgave</Typography>
-        <Typography variant="h6" component="h2" gutterBottom>
-          Top 100 GitHub repositories sortert etter kodespråk
-        </Typography>
+      <Grid container item xs={12}>
+        <Grid item xs={6}>
+          <Typography variant="h4" component="h1">Sysco Kodeoppgave</Typography>
+          <Typography variant="h6" component="h2" gutterBottom>
+            Top 100 GitHub repositories sortert etter kodespråk
+          </Typography>
+        </Grid>
+        <Grid item xs={6}>
+          {!loading && <Typography variant="h6" component="p">Totalt antall open issues: {totalIssues}</Typography>}
+        </Grid>
       </Grid>
       <Grid container item xs={12} className="minHeight" alignItems="center" justify="center">
         {
