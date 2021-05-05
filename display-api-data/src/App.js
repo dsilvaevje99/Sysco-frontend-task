@@ -77,16 +77,11 @@ const App = () => {
 
   return (
     <Grid container spacing={2}>
-      <Grid container item xs={12}>
-        <Grid item xs={6}>
-          <Typography variant="h4" component="h1">Sysco Kodeoppgave</Typography>
-          <Typography variant="h6" component="h2" gutterBottom>
-            Top 100 GitHub repositories sortert etter kodespråk
-          </Typography>
-        </Grid>
-        <Grid item xs={6}>
-          {!loading && <Typography variant="h6" component="p">Totalt antall open issues: {totalIssues}</Typography>}
-        </Grid>
+      <Grid container item xs={12} direction="column">
+        <Typography variant="h4" component="h1">Sysco Kodeoppgave</Typography>
+        <Typography variant="h6" component="h2" gutterBottom>
+          Top 100 GitHub repositories sortert etter kodespråk
+        </Typography>
       </Grid>
       <Grid container item xs={12} className="minHeight" alignItems="center" justify="center">
         {
@@ -97,9 +92,14 @@ const App = () => {
           )
         }
       </Grid>
-      <Grid container item xs={12} direction="row" alignItems="center">
-        <Typography variant="h6" component="p" className="paddingRight">Sorter listen: </Typography>
-        <SelectDropdown setSelectedFunction={setSelectedValue} />
+      <Grid container item xs={12}>
+        <Grid container item xs={6} direction="row" alignItems="center">
+          <Typography variant="h6" component="p" className="marginRight">Sorter listen: </Typography>
+          <SelectDropdown setSelectedFunction={setSelectedValue} />
+        </Grid>
+        <Grid container item xs={6} alignItems="center" justify="flex-end">
+          {!loading && <Typography variant="h6" component="p">Totalt antall open issues: {totalIssues}</Typography>}
+        </Grid>
       </Grid>
       <Grid container item xs={12}  alignItems="center" justify="center">
         {

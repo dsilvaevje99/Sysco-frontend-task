@@ -20,7 +20,7 @@ const DataTable = ({data}) => {
                                 <TableRow key={key}>
                                     <TableCell>{repo.name}</TableCell>
                                     <TableCell>{repo.description}</TableCell>
-                                    <TableCell>{repo.clone_url}</TableCell>
+                                    <TableCell><a href={repo.clone_url} target="_blank" rel="noreferrer">{repo.clone_url}</a></TableCell>
                                     <TableCell>{repo.stargazers_count}</TableCell>
                                     <TableCell>{repo.open_issues_count}</TableCell>
                                 </TableRow>
