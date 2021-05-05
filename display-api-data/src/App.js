@@ -4,6 +4,7 @@ import axios from 'axios';
 //IMPORT COMPONENTS:
 import DataTable from './components/DataTable';
 import SelectDropdown from './components/SelectDropdown';
+import BarChart from './components/BarChart';
 //IMPORT MUI COMPONENTS
 import { Grid, Typography } from '@material-ui/core';
 
@@ -11,6 +12,7 @@ const App = () => {
 
   //States
   const [apiData, setApiData] = useState([]);
+  const [chartData, setChartData] = useState({});
   const [selectedValue, setSelectedValue] = useState("javascript");
   const [loading, setLoading] = useState(false);
   //API URL
@@ -27,7 +29,7 @@ const App = () => {
 
     axios.get(url)
     .then((res) => {
-      console.log(res);
+      toChartData(res.data.items);
       setApiData(res.data.items);
       setLoading(false);
     })
@@ -37,15 +39,54 @@ const App = () => {
     })
   }
 
+  //Function to extract chart data
+  const toChartData = (data) => {
+    let chartData = {
+      labels: [],
+      datasets: [{
+        label: "Antall open issues",
+        data: [],
+        backgroundColor: [],
+        borderColor: [],
+        borderWidth: 1
+      }]
+    };
+
+    data.map((repo) => {
+      //Set repo names as labels
+      chartData.labels.push(repo.name);
+      //Set their open issues count as data
+      chartData.datasets[0].data.push(repo.open_issues_count);
+      chartData.datasets[0].backgroundColor.push("#333333");
+      chartData.datasets[0].borderColor.push("#333333");
+    })
+
+    console.log(chartData);
+    setChartData(chartData);
+  }
+
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
         <Typography variant="h4" component="h1">Sysco Kodeoppgave</Typography>
+        <Typography variant="h6" component="h2" gutterBottom>
+          Top 100 GitHub repositories sortert etter kodespråk
+        </Typography>
       </Grid>
-      <Grid item xs={12}>
+      <Grid container item xs={12} className="minHeight" alignItems="center" justify="center">
+        {
+          loading ? (
+            <Typography>Lager graf...</Typography>
+          ) : (
+            <BarChart data={chartData} />
+          )
+        }
+      </Grid>
+      <Grid container item xs={12} direction="row" alignItems="center">
+        <Typography variant="h6" component="p" className="paddingRight">Sorter listen: </Typography>
         <SelectDropdown setSelectedFunction={setSelectedValue} />
       </Grid>
-      <Grid item xs={12}>
+      <Grid container item xs={12}  alignItems="center" justify="center">
         {
           loading ? (
             <Typography>Laster inn data...</Typography>

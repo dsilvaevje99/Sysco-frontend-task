@@ -11,3 +11,11 @@ body {
 .tableHeader {
   background-color: aliceblue;
 }
+
+.minHeight {
+  min-height: 450px;
+}
+
+.paddingRight {
+  padding-right: 20px;
+}
