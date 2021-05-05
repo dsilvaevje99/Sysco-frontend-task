@@ -16,16 +16,12 @@ const App = () => {
   const [totalIssues, setTotalIssues] = useState(0);
   const [selectedValue, setSelectedValue] = useState("javascript");
   const [loading, setLoading] = useState(false);
-  //API URL
-  const url = "https://api.github.com/search/repositories?q=language:"+selectedValue+"&sort=stars&order=desc&per_page=100";
 
   //On selected value change
   useEffect(() => {
-    getData(url);
-  },[selectedValue])
-
-  //Function to fetch data from API
-  const getData = async (url) => {
+    //API URL
+    const url = "https://api.github.com/search/repositories?q=language:"+selectedValue+"&sort=stars&order=desc&per_page=100";
+    
     setLoading(true);
 
     axios.get(url)
@@ -39,7 +35,7 @@ const App = () => {
       console.log("Error occured when getting data from API.\n"+err);
       setLoading(false);
     })
-  }
+  },[selectedValue])
 
   //Function to extract chart data
   const toChartData = (data) => {
@@ -54,7 +50,7 @@ const App = () => {
       }]
     };
 
-    data.map((repo) => {
+    data.forEach((repo) => {
       //Set repo names as labels
       chartData.labels.push(repo.name);
       //Set their open issues count as data
@@ -72,7 +68,7 @@ const App = () => {
   const calcTotalIssues = (data) => {
     let total = 0;
 
-    data.map((repo) => {
+    data.forEach((repo) => {
       total += repo.open_issues_count;
     })
 

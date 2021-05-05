@@ -14,7 +14,8 @@ You may use any of the big frameworks like Vue, Angular React, Svelte, Web Compo
 
 ## My solution
 
-I solved the assignment using React JS with Material UI for the frontend components and Graph JS to display the statistics.  
+I solved the assignment using React JS with Material UI for the frontend components and Graph JS to display the statistics. Axios was used to fetch the JSON data from the given API.  
 The app was created using 'npx create-react-app'.  
 Material UI Core NPM: https://www.npmjs.com/package/@material-ui/core  
-Chart JS NPM: https://www.npmjs.com/package/react-chartjs-2
+Chart JS NPM: https://www.npmjs.com/package/react-chartjs-2  
+Axios NPM: https://www.npmjs.com/package/axios
